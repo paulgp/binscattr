@@ -1,5 +1,3 @@
-
-
 library(ggplot2)
 library(datasets)
 library(lfe)
@@ -13,7 +11,7 @@ themePaul <- function () {
             plot.background = element_blank(),
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
-            panel.border= element_blank(),     
+            panel.border= element_blank(),
             axis.line = element_line(colour = "black"),
             axis.text=element_text(size=10),
             axis.title=element_text(size=10))
@@ -38,8 +36,8 @@ binscatter <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE,
         x_res_formula = as.formula(paste(x, "~", paste(controls,sep="",collapse=" + ") , "|" ,
                             paste(absorb,sep="",collapse=" + ") , "|" , "0" ,  "|" ,
                             paste(c("0"),sep="",collapse=" + "), sep=" "))
-        controls <- data[,controls] 
-    }   
+        controls <- data[,controls]
+    }
     x_label = x
     y_label = y
     x <- data[,x]
@@ -48,7 +46,7 @@ binscatter <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE,
     print(tidy(f)[2,2:3])
     beta <- paste("beta", formatC(tidy(f)[2,2], digits=3,format="fg", flag="#"), sep="=")
     se <-   paste("s.e.", formatC(tidy(f)[2,3], digits=3,format="fg", flag="#"), sep="=")
-    if(length(controls) != 0) { 
+    if(length(controls) != 0) {
         f_Xres <- felm(x_res_formula, data=data)
         f_Yres <- felm(y_res_formula, data=data)
         x <- f_Xres$residuals + mean(x)
@@ -57,9 +55,9 @@ binscatter <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE,
     g <- ggplot(data, aes(x = x , y= y))  + themePaul() +
         xlab(x_label) + ylab(y_label)
     if (scatter == TRUE) {
-        g <- g + geom_point() 
+        g <- g + geom_point()
     }
-    if (discrete == TRUE) {        
+    if (discrete == TRUE) {
         g <- g + stat_summary(fun.y = "mean",  colour = "#0072B2", size = 2, geom="point")
     }
     else {
@@ -73,11 +71,11 @@ binscatter <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE,
         adjh <- c(1,1,-1,-1)
         adjv <- c(1,-1,1,-1)
         posdf <- data.frame(posx, posy, adjh, adjv, row.names=posname)
-        
+
         print(posdf)
         g <- g +
             geom_text(aes(x=Inf, y=-Inf,hjust=1, vjust=-2.5, label=beta)) +
-            geom_text(aes(x=Inf, y=-Inf,hjust=1, vjust=-1, label=se))       
+            geom_text(aes(x=Inf, y=-Inf,hjust=1, vjust=-1, label=se))
     }
     return(g)
 }
