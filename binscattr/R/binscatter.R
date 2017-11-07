@@ -14,16 +14,14 @@
 #' @keywords binscatter
 #' @export
 #' @examples
-#' binscatter()
+#' @importFrom lfe felm
+#' @import dplyr
+#' @import ggplot2
+#' @import broom
 
 binscatter <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE,
                        theme=theme_binscatter, fitline=TRUE, controls=c(), absorb=c("0"),
                        clustervars=c("0"), pos="bottom right") {
-  library(ggplot2)
-  library(lfe)
-  library(dplyr)
-  library(broom)
-
   x_label = enquo(x)
   y_label = enquo(y)
 
@@ -49,7 +47,7 @@ binscatter <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE,
   x <- data[[quo_name(x_label)]]
   y <- data[[quo_name(y_label)]]
 
-  f <- felm(formula, data=data)
+  f <- lfe::felm(formula, data=data)
   print(tidy(f)[2,2:3])
   beta <- paste("beta", formatC(tidy(f)[2,2], digits=3,format="fg", flag="#"), sep="=")
   se <-   paste("s.e.", formatC(tidy(f)[2,3], digits=3,format="fg", flag="#"), sep="=")
@@ -58,13 +56,13 @@ binscatter <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE,
     data$x_binning <- x
     data$y_binning <- y
   } else {
-    f_Xres <- felm(x_res_formula, data=data)
-    f_Yres <- felm(y_res_formula, data=data)
+    f_Xres <- lfe::felm(x_res_formula, data=data)
+    f_Yres <- lfe::felm(y_res_formula, data=data)
     data$x_binning <- f_Xres$residuals + mean(x)
     data$y_binning <- f_Yres$residuals + mean(y)
   }
 
-  g <- ggplot(data, aes(x = x_binning , y= y_binning))  + theme() +
+  g <- ggplot2::ggplot(data, aes(x = x_binning , y= y_binning))  + theme() +
     xlab(x_label) + ylab(y_label)
   if (scatter == TRUE) {
     g <- g + geom_point()
