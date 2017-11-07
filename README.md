@@ -9,3 +9,4 @@
   5) label graphs
   6) <s>Change input syntax using dplyr quoting conventions (http://dplyr.tidyverse.org/articles/programming.html) [done at least partially in shosh branch]</s>
   7) <s>Allow for factored control variables [done (hopefully) in shosh branch)</s>
+  8) Bin scatter by facet
