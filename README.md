@@ -7,3 +7,4 @@
   4) Connected line graphs
   5) label graphs
   6) Change input syntax using dplyr quoting conventions (http://dplyr.tidyverse.org/articles/programming.html)
+  7) Allow for factored control variables
