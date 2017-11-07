@@ -24,41 +24,47 @@ binscatter <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE,
   library(dplyr)
   library(broom)
 
-
+  x_label = enquo(x)
+  y_label = enquo(y)
 
   if(length(controls) == 0) {
-    formula = as.formula(paste(y, "~", x  , "|" ,
+    formula = as.formula(paste(quo_name(y_label), "~", quo_name(x_label)  , "|" ,
                                paste(absorb,sep="",collapse=" + ") , "|" , "0" ,  "|" ,
                                paste(clustervars,sep="",collapse=" + "), sep=" "))
   }
   if(length(controls)!=0) {
-    formula = as.formula(paste(y, "~", x, "+", paste(controls,sep="",collapse=" + ") , "|" ,
+    formula = as.formula(paste(quo_name(y_label), "~", quo_name(x_label), "+", paste(controls,sep="",collapse=" + ") , "|" ,
                                paste(absorb,sep="",collapse=" + ") , "|" , "0" ,  "|" ,
                                paste(clustervars,sep="",collapse=" + "), sep=" "))
 
-    y_res_formula = as.formula(paste(y, "~", paste(controls,sep="",collapse=" + ") , "|" ,
+    y_res_formula = as.formula(paste(quo_name(y_label), "~", paste(controls,sep="",collapse=" + ") , "|" ,
                                      paste(absorb,sep="",collapse=" + ") , "|" , "0" ,  "|" ,
                                      paste(c("0"),sep="",collapse=" + "), sep=" "))
-    x_res_formula = as.formula(paste(x, "~", paste(controls,sep="",collapse=" + ") , "|" ,
+    x_res_formula = as.formula(paste(quo_name(x_label), "~", paste(controls,sep="",collapse=" + ") , "|" ,
                                      paste(absorb,sep="",collapse=" + ") , "|" , "0" ,  "|" ,
                                      paste(c("0"),sep="",collapse=" + "), sep=" "))
     controls <- data[,controls]
   }
-  x_label = x
-  y_label = y
-  x <- data[,x]
-  y <- data[,y]
+
+  x <- data[[quo_name(x_label)]]
+  y <- data[[quo_name(y_label)]]
+
   f <- felm(formula, data=data)
   print(tidy(f)[2,2:3])
   beta <- paste("beta", formatC(tidy(f)[2,2], digits=3,format="fg", flag="#"), sep="=")
   se <-   paste("s.e.", formatC(tidy(f)[2,3], digits=3,format="fg", flag="#"), sep="=")
-  if(length(controls) != 0) {
+
+  if(length(controls) == 0) {
+    data$x_binning <- x
+    data$y_binning <- y
+  } else {
     f_Xres <- felm(x_res_formula, data=data)
     f_Yres <- felm(y_res_formula, data=data)
-    x <- f_Xres$residuals + mean(x)
-    y <- f_Yres$residuals + mean(y)
+    data$x_binning <- f_Xres$residuals + mean(x)
+    data$y_binning <- f_Yres$residuals + mean(y)
   }
-  g <- ggplot(data, aes(x = x , y= y))  + theme() +
+
+  g <- ggplot(data, aes(x = x_binning , y= y_binning))  + theme() +
     xlab(x_label) + ylab(y_label)
   if (scatter == TRUE) {
     g <- g + geom_point()
@@ -78,7 +84,7 @@ binscatter <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE,
     adjv <- c(1,-1,1,-1)
     posdf <- data.frame(posx, posy, adjh, adjv, row.names=posname)
 
-    print(posdf)
+    # print(posdf)
     g <- g +
       geom_text(data = data.frame(x=Inf, y=-Inf), map = aes(x=x, y=y,hjust=1, vjust=-2.5, family = "Times New Roman", size = 5), label=beta) +
       geom_text(data = data.frame(x=Inf, y=-Inf), map = aes(x=x, y=y,hjust=1, vjust=-1, family = "Times New Roman", size = 5), label=se)
