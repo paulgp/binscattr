@@ -9,6 +9,8 @@
 #' @param scatter Not sure what this is yet...
 #' @param theme Optional ggplot theme
 #' @param fitline Option to add a linear fit through the bin scatter
+#' @param controls Optional control variables to the binscatter
+#' @param clustervars Optional cluster variables
 #' @keywords binscatter
 #' @export
 #' @examples
@@ -78,8 +80,9 @@ binscatter <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE,
 
     print(posdf)
     g <- g +
-      geom_text(aes(x=Inf, y=-Inf,hjust=1, vjust=-2.5, label=beta)) +
-      geom_text(aes(x=Inf, y=-Inf,hjust=1, vjust=-1, label=se))
+      geom_text(data = data.frame(x=Inf, y=-Inf), map = aes(x=x, y=y,hjust=1, vjust=-2.5, family = "Times New Roman", size = 5), label=beta) +
+      geom_text(data = data.frame(x=Inf, y=-Inf), map = aes(x=x, y=y,hjust=1, vjust=-1, family = "Times New Roman", size = 5), label=se)
   }
+
   return(g)
 }

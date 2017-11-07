@@ -7,7 +7,7 @@
 #'
 
 theme_binscatter <- function () {
-  theme_bw(base_size=12) %+replace%
+  theme_bw(base_size=14) %+replace%
     theme(
       legend.position = "bottom",
       plot.background = element_blank(),
@@ -15,6 +15,6 @@ theme_binscatter <- function () {
       panel.grid.minor = element_blank(),
       panel.border= element_blank(),
       axis.line = element_line(colour = "black"),
-      axis.text=element_text(size=10),
-      axis.title=element_text(size=10))
+      axis.text=element_text(size=14),
+      axis.title=element_text(size=14))
 }
