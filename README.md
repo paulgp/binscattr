@@ -7,5 +7,5 @@
   3) Figure out why the text looks so crappy [done in Shosh branch]
   4) Connected line graphs
   5) label graphs
-  6) Change input syntax using dplyr quoting conventions (http://dplyr.tidyverse.org/articles/programming.html)
-  7) Allow for factored control variables
+  6) Change input syntax using dplyr quoting conventions (http://dplyr.tidyverse.org/articles/programming.html) [done at least partially in shosh branch]
+  7) Allow for factored control variables [done (hopefully) in shosh branch)
