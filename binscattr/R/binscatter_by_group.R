@@ -20,32 +20,38 @@
 #' @import ggplot2
 #' @import broom
 
-binscatter_by_group <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE, group_by,
+binscatter_by_group <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE, grouping_var,
                        theme=theme_binscatter, fitline=TRUE, controls=c(), absorb=c("0"),
                        clustervars=c("0"), pos="bottom right") {
 
-  group_by = enquo(group_by)
+  grouping_var = enquo(grouping_var)
   x_label = enquo(x)
   y_label = enquo(y)
 
+  # Produce residualized variables by group
   data <- data %>%
-    group_by(!!group_by) %>%
+    group_by(!!grouping_var) %>%
     do(
       get_binning_residuals(., !!y_label, !!x_label, controls, absorb, clustervars)
     )
 
-    data <- data %>%
-      mutate(
-        group_factor = as.character(!!group_by)
-      )
+  # Make sure the grouping variable is treated as a discrete object
+  data <- data %>%
+    mutate(
+      group_factor = as.character(!!grouping_var)
+    )
 
-  g <- ggplot2::ggplot(data, aes(x = x_group_binning , y = y_group_binning, color = group_factor) )  +
+  g <- ggplot2::ggplot(data, aes(x = x_binning , y = y_binning, color = group_factor) )  +
     theme() +
-    xlab(x_label) +
-    ylab(y_label)
+    labs(
+      x = x_label,
+      y = y_label,
+      color = quo_name(grouping_var)
+    )
+
 
   if (scatter == TRUE) {
-    g <- g + geom_point(aes( color = factor(!!group_by )))
+    g <- g + geom_point(aes( color = factor(!!grouping_var )))
   }
   if (discrete == TRUE) {
     g <- g + stat_summary(fun.y = "mean", size = 2, geom="point")

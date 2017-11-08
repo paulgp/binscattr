@@ -48,13 +48,13 @@ get_binning_residuals <- function(data, y, x, controls=c(), absorb=c("0"), clust
   print(tidy(f)[2,2:3])
 
   if (length(controls) == 0) {
-    data$x_group_binning <- x
-    data$y_group_binning <- y
+    data$x_binning <- x
+    data$y_binning <- y
   } else {
     f_Xres <- lfe::felm(x_res_formula, data = data)
     f_Yres <- lfe::felm(y_res_formula, data = data)
-    data$x_group_binning <- f_Xres$residuals + mean(x)
-    data$y_group_binning <- f_Yres$residuals + mean(y)
+    data$x_binning <- f_Xres$residuals + mean(x)
+    data$y_binning <- f_Yres$residuals + mean(y)
   }
   return(data)
 }
