@@ -4,7 +4,6 @@
 #' @keywords binscatter theme
 #' @export
 #' @examples
-#'
 
 theme_binscatter <- function () {
   theme_bw(base_size=14) %+replace%
