@@ -24,11 +24,12 @@ binscatter(data, y, x, bins = 20, discrete = FALSE, scatter = FALSE,
 \item{theme}{Optional ggplot theme}
 
 \item{fitline}{Option to add a linear fit through the bin scatter}
+
+\item{controls}{Optional control variables to the binscatter}
+
+\item{clustervars}{Optional cluster variables}
 }
 \description{
 This function does a binscatter for two-dimensional data
-}
-\examples{
-binscatter()
 }
 \keyword{binscatter}

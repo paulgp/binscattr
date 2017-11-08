@@ -84,8 +84,8 @@ binscatter <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE,
 
     # print(posdf)
     g <- g +
-      geom_text(data = data.frame(x=Inf, y=-Inf), map = aes(x=x, y=y,hjust=1, vjust=-2.5, family = "Times New Roman", size = 5), label=beta) +
-      geom_text(data = data.frame(x=Inf, y=-Inf), map = aes(x=x, y=y,hjust=1, vjust=-1, family = "Times New Roman", size = 5), label=se)
+      geom_text(data = data.frame(x=Inf, y=-Inf), map = aes(x=x, y=y,hjust=1, vjust=-2.5, family = "Times New Roman"), label=beta) +
+      geom_text(data = data.frame(x=Inf, y=-Inf), map = aes(x=x, y=y,hjust=1, vjust=-1, family = "Times New Roman"), label=se)
   }
 
   return(g)
