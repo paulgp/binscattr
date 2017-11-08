@@ -25,15 +25,18 @@ binscatter <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE, group
   x_label = enquo(x)
   y_label = enquo(y)
   grouping_var = enquo(grouping_var)
+  print(quo_name(grouping_var))
+  print(quo_name(grouping_var) %in% colnames(data))
 
-
-  if( length(grouping_var) == 0 ){
-    g <- binscatter_basic(data, !!y_label, !!x_label, bins=20, discrete=FALSE, scatter=FALSE,
-                          theme=theme_binscatter, fitline=TRUE, controls=c(), absorb=c("0"),
-                          clustervars=c("0"), pos="bottom right")
+  if( quo_name(grouping_var) %in% colnames(data) ){
+    print("Grouped Bin-Scatter")
+    g <- binscatter_by_group(data, !!y_label, !!x_label, bins=20, discrete=FALSE, scatter=FALSE, grouping_var = !!grouping_var,
+                             theme=theme_binscatter, fitline=TRUE, controls=c(), absorb=c("0"),
+                             clustervars=c("0"), pos="bottom right")
   }
   else {
-    g <- binscatter_by_group(data, !!y_label, !!x_label, bins=20, discrete=FALSE, scatter=FALSE, !!grouping_var,
+    print("Basic (Pooled) Bin Scatter")
+    g <- binscatter_basic(data, !!y_label, !!x_label, bins=20, discrete=FALSE, scatter=FALSE,
                           theme=theme_binscatter, fitline=TRUE, controls=c(), absorb=c("0"),
                           clustervars=c("0"), pos="bottom right")
   }
