@@ -30,7 +30,7 @@ binscatter <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE, group
 
   if( quo_name(grouping_var) %in% colnames(data) ){
     print("Grouped Bin-Scatter")
-    g <- binscatter_by_group(data, !!y_label, !!x_label, bins=20, discrete=FALSE, scatter=FALSE, grouping_var = (!!grouping_var),
+    g <- binscatter_by_group(data, !!y_label, !!x_label, bins=20, discrete=FALSE, scatter=FALSE, grouping_var = !!grouping_var,
                              theme=theme_binscatter, fitline=TRUE, controls=c(), absorb=c("0"),
                              clustervars=c("0"), pos="bottom right")
   }
