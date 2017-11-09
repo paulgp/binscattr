@@ -10,3 +10,4 @@
   6) <s>Change input syntax using dplyr quoting conventions (http://dplyr.tidyverse.org/articles/programming.html) </s>
   7) <s>Allow for factored control variables</s>
   8) <s>Bin scatter by group</s>
+  9) Allow for splitting up binning/line fit at user-provided x-breaks (a la Michael Stepner's RD example)
