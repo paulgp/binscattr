@@ -19,7 +19,7 @@
 #' @import ggplot2
 #' @import broom
 
-binscatter_basic <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE,
+binscatter_basic <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE, connectdots = FALSE,
                        theme=theme_binscatter, fitline=TRUE, controls=c(), absorb=c("0"),
                        clustervars=c("0"), pos="bottom right") {
   x_label = enquo(x)
@@ -68,10 +68,16 @@ binscatter_basic <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE,
     g <- g + geom_point()
   }
   if (discrete == TRUE) {
-    g <- g + stat_summary(fun.y = "mean",  colour = "#0072B2", size = 2, geom="point")
+    g <- g + stat_summary(fun.y = "mean",  colour = "#0072B2", size = 2.5, geom="point")
+    if(connectdots == TRUE){
+      g <- g + stat_summary(fun.y = "mean",  colour = "#0072B2", size = 1, geom="line")
+    }
   }
   else {
-    g <- g + stat_summary_bin(fun.y = "mean",  colour = "#0072B2", size = 2, geom="point", bins=20)
+    g <- g + stat_summary_bin(fun.y = "mean",  colour = "#0072B2", size = 2.5, geom="point", bins=20)
+    if(connectdots == TRUE){
+      g <- g + stat_summary_bin(fun.y = "mean",  colour = "#0072B2", size = 1, geom="line", bins=20)
+    }
   }
   if (fitline == TRUE) {
     g <- g + geom_smooth(method='lm',formula=y~x, se=FALSE, color="#D55E00", size=1)
