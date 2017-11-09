@@ -20,8 +20,8 @@
 #' @import ggplot2
 #' @import broom
 
-binscatter_by_group <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE, grouping_var,
-                       theme=theme_binscatter, fitline=TRUE, controls=c(), absorb=c("0"),
+binscatter_by_group <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE, connectdots = FALSE,
+                                grouping_var, theme=theme_binscatter, fitline=TRUE, controls=c(), absorb=c("0"),
                        clustervars=c("0"), pos="bottom right") {
 
   grouping_var = enquo(grouping_var)
@@ -54,10 +54,16 @@ binscatter_by_group <- function(data, y, x, bins=20, discrete=FALSE, scatter=FAL
     g <- g + geom_point(aes( color = factor(!!grouping_var )))
   }
   if (discrete == TRUE) {
-    g <- g + stat_summary(fun.y = "mean", size = 2, geom="point")
+    g <- g + stat_summary(fun.y = "mean", size = 2.5, geom="point")
+    if(connectdots == TRUE){
+      g <- g + stat_summary(fun.y = "mean", size = 1, geom="line")
+    }
   }
   else {
-    g <- g + stat_summary_bin(fun.y = "mean", size = 2, geom="point", bins=20)
+    g <- g + stat_summary_bin(fun.y = "mean", size = 2.5, geom = "point", bins = bins)
+    if(connectdots == TRUE){
+      g <- g + stat_summary_bin(fun.y = "mean",  size = 1, geom = "line", bins = bins)
+    }
   }
   if (fitline == TRUE) {
     g <- g + geom_smooth(method='lm',formula=y~x, se=FALSE, size=1)
