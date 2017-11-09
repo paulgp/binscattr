@@ -19,8 +19,8 @@
 #' @import ggplot2
 #' @import broom
 
-binscatter <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE, grouping_var = c(),
-                       theme=theme_binscatter, fitline=TRUE, controls=c(), absorb=c("0"),
+binscatter <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE, connectdots = FALSE,
+                       grouping_var = c(),theme=theme_binscatter, fitline=TRUE, controls=c(), absorb=c("0"),
                        clustervars=c("0"), pos="bottom right") {
   x_label = enquo(x)
   y_label = enquo(y)
@@ -30,15 +30,15 @@ binscatter <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE, group
 
   if( quo_name(grouping_var) %in% colnames(data) ){
     print("Grouped Bin-Scatter")
-    g <- binscatter_by_group(data, !!y_label, !!x_label, bins=20, discrete=FALSE, scatter=FALSE, grouping_var = !!grouping_var,
-                             theme=theme_binscatter, fitline=TRUE, controls=c(), absorb=c("0"),
-                             clustervars=c("0"), pos="bottom right")
+    g <- binscatter_by_group(data, !!y_label, !!x_label, bins=bins, discrete=discrete, scatter=scatter, connectdots, grouping_var = !!grouping_var,
+                             theme=theme_binscatter, fitline=fitline, controls=controls, absorb=absorb,
+                             clustervars=clustervars, pos=pos)
   }
   else {
     print("Basic (Pooled) Bin Scatter")
-    g <- binscatter_basic(data, !!y_label, !!x_label, bins=20, discrete=FALSE, scatter=FALSE,
-                          theme=theme_binscatter, fitline=TRUE, controls=c(), absorb=c("0"),
-                          clustervars=c("0"), pos="bottom right")
+    g <- binscatter_basic(data, !!y_label, !!x_label, bins=bins, discrete=discrete, scatter=scatter, connectdots,
+                          theme=theme_binscatter, fitline=fitline, controls=controls, absorb=absorb,
+                          clustervars=clustervars, pos=pos)
   }
 
   return(g)
