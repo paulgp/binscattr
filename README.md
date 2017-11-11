@@ -12,3 +12,4 @@
   8) <s>Bin scatter by group</s>
   9) Allow for splitting up binning/line fit at user-provided x-breaks (a la Michael Stepner's RD example)
   10) Make connectlines default to false when fitline is true and vice versa (unless both are specified by the user)
+  11) Handle data with missing values(?)
