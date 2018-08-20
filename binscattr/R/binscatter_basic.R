@@ -91,10 +91,14 @@ binscatter_basic <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE,
     if(pos %in% posname){
       pos_choice = posdf[pos,]
 
+      ## Calculate adjustments so that beta is on top of se in any position
+      v_adj_beta = pos_choice$adjv * 2.5 + (pos_choice$adjv+1)*(-0.75)
+      v_adj_se = pos_choice$adjv * 1 + (pos_choice$adjv+1)*(0.75)
+
       # print(posdf)
       g <- g +
-        geom_text(data = data.frame(x=pos_choice$posx, y=pos_choice$posy), map = aes(x=x, y=y,hjust=pos_choice$adjh, vjust=pos_choice$adjv*2.5, family = "Times New Roman"), label=beta) +
-        geom_text(data = data.frame(x=pos_choice$posx, y=pos_choice$posy), map = aes(x=x, y=y,hjust=pos_choice$adjh, vjust=pos_choice$adjv, family = "Times New Roman"), label=se)
+        geom_text(data = data.frame(x=pos_choice$posx, y=pos_choice$posy), map = aes(x=x, y=y,hjust=pos_choice$adjh, vjust=(v_adj_beta), family = "Times New Roman"), label=beta) +
+        geom_text(data = data.frame(x=pos_choice$posx, y=pos_choice$posy), map = aes(x=x, y=y,hjust=pos_choice$adjh, vjust=v_adj_se, family = "Times New Roman"), label=se)
     }
 
    }

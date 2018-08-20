@@ -7,12 +7,19 @@ install("binscattr")
 library(binscattr)
 
 
+# Install changes
+setwd("binscattr/")
+document()
+setwd("..")
+install("binscattr")
+
+
 data <- airquality %>% na.omit
 binscatter(data, y="Ozone", x ="Temp", discrete=FALSE, controls=c("Solar.R", "Wind" ))
 binscatter(data, y=Ozone, x =Temp, discrete=FALSE)
 binscatter(data, y=Ozone, x =Temp, discrete=FALSE)
 
-binscatter(data, y=Ozone, x =Temp, discrete=FALSE,pos="")
+binscatter(data, y=Ozone, x =Temp, discrete=FALSE,pos="bottom left")
 
 
 data$group = factor(data$Month)
