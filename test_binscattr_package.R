@@ -1,12 +1,19 @@
 library(datasets)
 library(tidyverse)
-install.packages("binscattr", repos = NULL, type="source")
+library(devtools)
+library(roxygen2)
+# install.packages("binscattr", repos = NULL, type="source")
+install("binscattr")
 library(binscattr)
 
 
 data <- airquality %>% na.omit
 binscatter(data, y="Ozone", x ="Temp", discrete=FALSE, controls=c("Solar.R", "Wind" ))
 binscatter(data, y=Ozone, x =Temp, discrete=FALSE)
+binscatter(data, y=Ozone, x =Temp, discrete=FALSE)
+
+binscatter(data, y=Ozone, x =Temp, discrete=FALSE,pos="")
+
 
 data$group = factor(data$Month)
 binscatter_by_group(data, y=Ozone, x = Temp, discrete=FALSE, grouping_var=Month)
@@ -28,3 +35,4 @@ binscatter(data, y=Ozone, x =Temp, grouping_var=Month, fitline=T , connectdots=T
 binscatter(data, y=Ozone, x =Temp, controls=c("Solar.R", "Wind" ))
 binscatter(data, y=Ozone, x =Temp, controls=c("Solar.R", "Wind" ), grouping_var=group)
 binscatter(data, y=Ozone, x =Temp, controls=c("Solar.R", "Wind" ), grouping_var=group, fitline=F , connectdots=T)
+

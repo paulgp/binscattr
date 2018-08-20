@@ -49,8 +49,8 @@ binscatter_basic <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE,
 
   f <- lfe::felm(formula, data=data)
   print(tidy(f)[2,2:3])
-  beta <- paste("beta", formatC(tidy(f)[2,2], digits=3,format="fg", flag="#"), sep="=")
-  se <-   paste("s.e.", formatC(tidy(f)[2,3], digits=3,format="fg", flag="#"), sep="=")
+  beta <- paste("beta", formatC(tidy(f)[2,2][[1]], digits=3,format="fg", flag="#"), sep="=")
+  se <-   paste("s.e.", formatC(tidy(f)[2,3][[1]], digits=3,format="fg", flag="#"), sep="=")
 
   if(length(controls) == 0) {
     data$x_binning <- x
@@ -88,11 +88,16 @@ binscatter_basic <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE,
     adjv <- c(1,-1,1,-1)
     posdf <- data.frame(posx, posy, adjh, adjv, row.names=posname)
 
-    # print(posdf)
-    g <- g +
-      geom_text(data = data.frame(x=Inf, y=-Inf), map = aes(x=x, y=y,hjust=1, vjust=-2.5, family = "Times New Roman"), label=beta) +
-      geom_text(data = data.frame(x=Inf, y=-Inf), map = aes(x=x, y=y,hjust=1, vjust=-1, family = "Times New Roman"), label=se)
-  }
+    if(pos %in% posname){
+      pos_choice = posdf[pos,]
+
+      # print(posdf)
+      g <- g +
+        geom_text(data = data.frame(x=pos_choice$posx, y=pos_choice$posy), map = aes(x=x, y=y,hjust=pos_choice$adjh, vjust=pos_choice$adjv*2.5, family = "Times New Roman"), label=beta) +
+        geom_text(data = data.frame(x=pos_choice$posx, y=pos_choice$posy), map = aes(x=x, y=y,hjust=pos_choice$adjh, vjust=pos_choice$adjv, family = "Times New Roman"), label=se)
+    }
+
+   }
 
   return(g)
 }

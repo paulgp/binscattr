@@ -5,8 +5,9 @@
 \title{Bin-scatter function}
 \usage{
 binscatter(data, y, x, bins = 20, discrete = FALSE, scatter = FALSE,
-  theme = theme_binscatter, fitline = TRUE, controls = c(),
-  absorb = c("0"), clustervars = c("0"), pos = "bottom right")
+  connectdots = FALSE, grouping_var = c(), theme = theme_binscatter,
+  fitline = TRUE, controls = c(), absorb = c("0"),
+  clustervars = c("0"), pos = "bottom right")
 }
 \arguments{
 \item{data}{Dataframe containing the x and y variables}

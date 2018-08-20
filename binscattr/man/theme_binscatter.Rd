@@ -9,8 +9,5 @@ theme_binscatter()
 \description{
 A nice ggplot theme for the bin scatter plots
 }
-\examples{
-
-}
 \keyword{binscatter}
 \keyword{theme}
