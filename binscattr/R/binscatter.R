@@ -39,6 +39,7 @@ binscatter <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE, conne
     g <- binscatter_basic(data, !!y_label, !!x_label, bins=bins, discrete=discrete, scatter=scatter, connectdots,
                           theme=theme_binscatter, fitline=fitline, controls=controls, absorb=absorb,
                           clustervars=clustervars, pos=pos)
+
   }
 
   return(g)

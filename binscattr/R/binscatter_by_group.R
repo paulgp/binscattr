@@ -54,15 +54,15 @@ binscatter_by_group <- function(data, y, x, bins=20, discrete=FALSE, scatter=FAL
     g <- g + geom_point(aes( color = factor(!!grouping_var )))
   }
   if (discrete == TRUE) {
-    g <- g + stat_summary(fun.y = "mean", size = 2.5, geom="point")
+    g <- g + stat_summary(fun = "mean", size = 2.5, geom="point")
     if(connectdots == TRUE){
-      g <- g + stat_summary(fun.y = "mean", size = 1, geom="line")
+      g <- g + stat_summary(fun = "mean", size = 1, geom="line")
     }
   }
   else {
-    g <- g + stat_summary_bin(fun.y = "mean", size = 2.5, geom = "point", bins = bins)
+    g <- g + stat_summary_bin(fun = "mean", size = 2.5, geom = "point", bins = bins)
     if(connectdots == TRUE){
-      g <- g + stat_summary_bin(fun.y = "mean",  size = 1, geom = "line", bins = bins)
+      g <- g + stat_summary_bin(fun = "mean",  size = 1, geom = "line", bins = bins)
     }
   }
   if (fitline == TRUE) {

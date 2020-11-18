@@ -48,9 +48,9 @@ binscatter_basic <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE,
   y <- data[[quo_name(y_label)]]
 
   f <- lfe::felm(formula, data=data)
-  print(tidy(f)[2,2:3])
-  beta <- paste("beta", formatC(tidy(f)[2,2], digits=3,format="fg", flag="#"), sep="=")
-  se <-   paste("s.e.", formatC(tidy(f)[2,3], digits=3,format="fg", flag="#"), sep="=")
+  print(tidy(f)[2,3])
+  beta <- paste("beta", formatC(tidy(f)[2,2][[1]], digits=3,format="fg", flag="#"), sep="=")
+  se <-   paste("s.e.", formatC(tidy(f)[2,3][[1]], digits=3,format="fg", flag="#"), sep="=")
 
   if(length(controls) == 0) {
     data$x_binning <- x
@@ -68,15 +68,15 @@ binscatter_basic <- function(data, y, x, bins=20, discrete=FALSE, scatter=FALSE,
     g <- g + geom_point()
   }
   if (discrete == TRUE) {
-    g <- g + stat_summary(fun.y = "mean",  colour = "#0072B2", size = 2.5, geom="point")
+    g <- g + stat_summary(fun = "mean",  colour = "#0072B2", size = 2.5, geom="point")
     if(connectdots == TRUE){
-      g <- g + stat_summary(fun.y = "mean",  colour = "#0072B2", size = 1, geom="line")
+      g <- g + stat_summary(fun = "mean",  colour = "#0072B2", size = 1, geom="line")
     }
   }
   else {
-    g <- g + stat_summary_bin(fun.y = "mean",  colour = "#0072B2", size = 2.5, geom="point", bins=20)
+    g <- g + stat_summary_bin(fun = "mean",  colour = "#0072B2", size = 2.5, geom="point", bins=20)
     if(connectdots == TRUE){
-      g <- g + stat_summary_bin(fun.y = "mean",  colour = "#0072B2", size = 1, geom="line", bins=20)
+      g <- g + stat_summary_bin(fun = "mean",  colour = "#0072B2", size = 1, geom="line", bins=20)
     }
   }
   if (fitline == TRUE) {
